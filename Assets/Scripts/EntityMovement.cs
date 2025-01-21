@@ -13,7 +13,7 @@ public class EntityMovement : MonoBehaviour
         moveDirection = transform.up;  // Start moving in the direction of 'up' on the entity
         
         // Events
-        GameManager.OnChallengeEnd += OnChallengeEnd;
+        PlayerController.OnPlayerStoppedOutcome += OnPlayerStoppedOutcome;
     }
 
     private void Update()
@@ -40,7 +40,7 @@ public class EntityMovement : MonoBehaviour
         moveDirection = Vector2.Reflect(moveDirection, collisionNormal).normalized;
     }
 
-    private void OnChallengeEnd()
+    private void OnPlayerStoppedOutcome(bool outcome)
     {
         isChallengeActive = false;
         rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
@@ -48,6 +48,6 @@ public class EntityMovement : MonoBehaviour
 
     private void OnDestroy()
     {
-        GameManager.OnChallengeEnd -= OnChallengeEnd;
+        PlayerController.OnPlayerStoppedOutcome -= OnPlayerStoppedOutcome;
     }
 }

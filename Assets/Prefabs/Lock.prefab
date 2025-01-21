@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8432452695089531171}
   - component: {fileID: 3657249422489143198}
   - component: {fileID: 5695944858465703608}
+  - component: {fileID: -5578759536395823370}
   m_Layer: 0
   m_Name: Lock
   m_TagString: Lock
@@ -162,3 +163,15 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &-5578759536395823370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6761769578986356528}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9c065507fa6d6746be91ba9cce18687, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

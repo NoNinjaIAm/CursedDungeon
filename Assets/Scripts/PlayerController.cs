@@ -2,16 +2,17 @@ using System;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
-{   
-    private SpinPivot pivotSpinner;
+{
+    [SerializeField]  private SpinPivot pivotSpinner;
     [SerializeField] private GazeDetector playerGaze;
 
-    public event Action OnPlayerStoppedOnLock;
+    // If the player stopped on the lock, then this sends "true"
+    // If the player stopped but not on the lock, then this sends "false"
+    public static event Action<bool> OnPlayerStoppedOutcome;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void OnEnable()
     {
-        pivotSpinner = GetComponent<SpinPivot>();
+        pivotSpinner.StartSpinning();
     }
 
     // Update is called once per frame
@@ -23,11 +24,12 @@ public class PlayerController : MonoBehaviour
             if (playerGaze.IsLookingAtLock)
             {
                 Debug.Log("Stopped On Lock!");
-                OnPlayerStoppedOnLock?.Invoke();
+                OnPlayerStoppedOutcome?.Invoke(true); // make sure last thing we do
             }
             else
             {
                 Debug.Log("Stopped On Nothing!");
+                OnPlayerStoppedOutcome?.Invoke(false); // make sure last thing we do
             }
         }
     }

@@ -1,12 +1,18 @@
 using System;
+using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class GameManager : MonoBehaviour
 {
     private PlayerController playerController;
     public static GameManager Instance { get; private set; }
-    public static event Action OnChallengeEnd;
+    private bool waitingForStartTransAnimation = false;
+    private bool waitingForChallengeTransAnimation = false;
+
+    [SerializeField] private int score;
+    public static event Action OnChallengeStart;
 
     private void Awake()
     {
@@ -26,7 +32,48 @@ public class GameManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        FindPlayerController(); // Gotta find PlayerController on every scene reload
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        
+        // If we're in the game scene
+        if(currentSceneIndex == 1)
+        {
+            FindPlayerController(); // Gotta find PlayerController on every game scene reload
+            playerController.gameObject.SetActive(false);
+
+            // Play and wait for starting game animation to finish
+            if (AnimationManager.Instance != null)
+            {
+                // Subscribe to Animation Listener event
+                AnimationManager.Instance.OnAnimationEnd += OnCutsceneFinished;
+
+                // Play start game animation and wait for it to end
+                waitingForStartTransAnimation = true;
+                AnimationManager.Instance.PlayAnimationAndWait("StartGameTransition");
+            }
+            else Debug.LogError("ERROR: GAMEMANAGER CANNOT FIND ANIMATIONMANAGER INSTANCE");
+
+            
+        }
+        
+    }
+
+    private void OnCutsceneFinished()
+    {
+        // If the opening cutscene just finisihed
+        if(waitingForStartTransAnimation)
+        {
+            waitingForStartTransAnimation=false;
+            StartChallenge();
+        }
+        else if(waitingForChallengeTransAnimation)
+        {
+            waitingForChallengeTransAnimation=false;
+            StartChallenge();
+        }
+        else
+        {
+            Debug.LogWarning("Some Animation Finished and GameManager did not account for it.");
+        }
     }
 
     private void FindPlayerController()
@@ -38,13 +85,48 @@ public class GameManager : MonoBehaviour
         else
         {
             Debug.Log("GameManager found PlayerController!");
-            playerController.OnPlayerStoppedOnLock += OnPlayerStoppedOnLock;
+            PlayerController.OnPlayerStoppedOutcome += OnPlayerStoppedOutcome;
         }
     }
 
-    private void OnPlayerStoppedOnLock ()
+    private void StartChallenge()
     {
-        OnChallengeEnd?.Invoke();
+        // Activate Game
+        playerController.gameObject.SetActive(true);
+        OnChallengeStart();
+    }
+
+    private void OnPlayerStoppedOutcome (bool outcome)
+    {
+        // If passed challenge
+        if (outcome)
+        {
+            // Deactivate Game
+            playerController.gameObject.SetActive(false);
+            score++;
+            Debug.Log("Challenge Passed. New Score: " + score);
+            
+            // Play cutscene and wait
+            AnimationManager.Instance.PlayAnimationAndWait("LevelTransition");
+            waitingForChallengeTransAnimation = true;
+        }
+        // If failed challenge
+        else
+        {
+            Debug.Log("Game Over!!!");
+
+            playerController.gameObject.SetActive(false);
+            UnsubscribeToGameSceneEvents();
+            // TODO: Highscore stuff
+            AnimationManager.Instance.PlayAnimationAndWait("ChallengeFailed");
+        }
+        
+    }
+
+    private void UnsubscribeToGameSceneEvents()
+    {
+        PlayerController.OnPlayerStoppedOutcome -= OnPlayerStoppedOutcome;
+        AnimationManager.Instance.OnAnimationEnd -= OnCutsceneFinished;
     }
 
     // On Destroy
@@ -54,7 +136,7 @@ public class GameManager : MonoBehaviour
         if (Instance == this)
         {
             SceneManager.sceneLoaded -= OnSceneLoaded;
-            playerController.OnPlayerStoppedOnLock -= OnPlayerStoppedOnLock;
+            UnsubscribeToGameSceneEvents();
         }
     }
 }

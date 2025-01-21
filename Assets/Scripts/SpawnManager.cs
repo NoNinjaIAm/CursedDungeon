@@ -10,13 +10,12 @@ public class SpawnManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        SpawnLock();
+        GameManager.OnChallengeStart += OnChallengeStart;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnChallengeStart()
     {
-        
+        SpawnLock();
     }
 
     private void SpawnLock()
