@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     private bool waitingForChallengeTransAnimation = false;
 
     [SerializeField] private int score;
+    [SerializeField] private int highscore;
     public static event Action OnChallengeStart;
 
     private void Awake()
@@ -37,6 +38,9 @@ public class GameManager : MonoBehaviour
         // If we're in the game scene
         if(currentSceneIndex == 1)
         {
+            // Reset Score
+            score = 0;
+
             FindPlayerController(); // Gotta find PlayerController on every game scene reload
             playerController.gameObject.SetActive(false);
 
@@ -52,7 +56,7 @@ public class GameManager : MonoBehaviour
             }
             else Debug.LogError("ERROR: GAMEMANAGER CANNOT FIND ANIMATIONMANAGER INSTANCE");
 
-            
+
         }
         
     }
@@ -119,8 +123,18 @@ public class GameManager : MonoBehaviour
             UnsubscribeToGameSceneEvents();
             // TODO: Highscore stuff
             AnimationManager.Instance.PlayAnimationAndWait("ChallengeFailed");
+            CheckHighscore();
         }
         
+    }
+
+    private void CheckHighscore ()
+    {
+        if (score > highscore)
+        {
+            highscore = score;
+            Debug.Log("New Highscore: " + highscore);
+        }
     }
 
     private void UnsubscribeToGameSceneEvents()
