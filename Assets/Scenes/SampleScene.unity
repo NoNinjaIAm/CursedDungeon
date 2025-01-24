@@ -1030,6 +1030,7 @@ GameObject:
   m_Component:
   - component: {fileID: 645781179}
   - component: {fileID: 645781178}
+  - component: {fileID: 645781180}
   m_Layer: 0
   m_Name: AnimationManager
   m_TagString: Untagged
@@ -1049,7 +1050,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92b88402c44be2c45ad8f0fdc0ac60d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 1294043672}
+  animator: {fileID: 645781180}
 --- !u!4 &645781179
 Transform:
   m_ObjectHideFlags: 0
@@ -1066,6 +1067,28 @@ Transform:
   - {fileID: 1294043674}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &645781180
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 645781177}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: dce91657e59b223439e7b28bac8c848f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &696448689
 GameObject:
   m_ObjectHideFlags: 0
@@ -1519,7 +1542,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1294043674}
   - component: {fileID: 1294043673}
-  - component: {fileID: 1294043672}
   m_Layer: 0
   m_Name: Background
   m_TagString: Untagged
@@ -1527,28 +1549,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!95 &1294043672
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1294043671}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: dce91657e59b223439e7b28bac8c848f, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!212 &1294043673
 SpriteRenderer:
   m_ObjectHideFlags: 0

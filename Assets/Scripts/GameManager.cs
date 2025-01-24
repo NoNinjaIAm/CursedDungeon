@@ -8,8 +8,6 @@ public class GameManager : MonoBehaviour
 {
     private PlayerController playerController;
     public static GameManager Instance { get; private set; }
-    private bool waitingForStartTransAnimation = false;
-    private bool waitingForChallengeTransAnimation = false;
 
     [SerializeField] private int score;
     [SerializeField] private int highscore;
@@ -48,11 +46,10 @@ public class GameManager : MonoBehaviour
             if (AnimationManager.Instance != null)
             {
                 // Subscribe to Animation Listener event
-                AnimationManager.Instance.OnAnimationEnd += OnCutsceneFinished;
+                AnimationManager.Instance.OnAnimationEnd += OnAnimationManagerFinishedAnimation;
 
                 // Play start game animation and wait for it to end
-                waitingForStartTransAnimation = true;
-                AnimationManager.Instance.PlayAnimationAndWait("StartGameTransition");
+                AnimationManager.Instance.PlayAnimation("StartGameTransition");
             }
             else Debug.LogError("ERROR: GAMEMANAGER CANNOT FIND ANIMATIONMANAGER INSTANCE");
 
@@ -61,17 +58,11 @@ public class GameManager : MonoBehaviour
         
     }
 
-    private void OnCutsceneFinished()
+    private void OnAnimationManagerFinishedAnimation(string name)
     {
         // If the opening cutscene just finisihed
-        if(waitingForStartTransAnimation)
+        if(name == "StartGameTransition" || name == "LevelTransition")
         {
-            waitingForStartTransAnimation=false;
-            StartChallenge();
-        }
-        else if(waitingForChallengeTransAnimation)
-        {
-            waitingForChallengeTransAnimation=false;
             StartChallenge();
         }
         else
@@ -111,8 +102,7 @@ public class GameManager : MonoBehaviour
             Debug.Log("Challenge Passed. New Score: " + score);
             
             // Play cutscene and wait
-            AnimationManager.Instance.PlayAnimationAndWait("LevelTransition");
-            waitingForChallengeTransAnimation = true;
+            AnimationManager.Instance.PlayAnimation("LevelTransition");
         }
         // If failed challenge
         else
@@ -122,7 +112,7 @@ public class GameManager : MonoBehaviour
             playerController.gameObject.SetActive(false);
             UnsubscribeToGameSceneEvents();
             // TODO: Highscore stuff
-            AnimationManager.Instance.PlayAnimationAndWait("ChallengeFailed");
+            AnimationManager.Instance.PlayAnimation("ChallengeFailed");
             CheckHighscore();
         }
         
@@ -140,7 +130,7 @@ public class GameManager : MonoBehaviour
     private void UnsubscribeToGameSceneEvents()
     {
         PlayerController.OnPlayerStoppedOutcome -= OnPlayerStoppedOutcome;
-        AnimationManager.Instance.OnAnimationEnd -= OnCutsceneFinished;
+        AnimationManager.Instance.OnAnimationEnd -= OnAnimationManagerFinishedAnimation;
     }
 
     // On Destroy

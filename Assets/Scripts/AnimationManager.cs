@@ -8,39 +8,30 @@ public class AnimationManager : MonoBehaviour
 
     public static AnimationManager Instance { get; private set; }
 
-    public event Action OnAnimationEnd;
+    public event Action<string> OnAnimationEnd;
     private void Awake()
     {
         if (Instance == null) Instance = this;
         else Destroy(gameObject); // Prevent duplicates
     }
 
-    public IEnumerator WaitForAnimation(string name)
+    // Plays an animation and sets a callback for completion
+    public void PlayAnimation(string animationName)
     {
-        // Get the current animation state info
-        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
-        float currentNormTime = stateInfo.normalizedTime;
-
-        // Wait until the animation reaches the end (normalizedTime = 1)
-        while (currentNormTime < 1)
+        if (animator == null)
         {
-            stateInfo = animator.GetCurrentAnimatorStateInfo(0);  // Update stateInfo in the loop
-            yield return null;  // Wait for the next frame
-            
-            // Check after each iteration if we're still in the same state
-            if (currentNormTime > stateInfo.normalizedTime) break; // If timer goes lower the current time then new animation has started or this one has reset (and it wasn't caught in conditional)
-            currentNormTime = stateInfo.normalizedTime;
+            Debug.LogError("Animator is not assigned!");
+            return;
         }
 
-        // Animation finished
-        Debug.Log("AnimManager Finished Animation. It took: " + stateInfo.length + " seconds");
-        OnAnimationEnd?.Invoke();
+        animator.Play(animationName);
     }
 
-    public void PlayAnimationAndWait(string animationName)
+    // This is called from an Animation Event at the end of the animation
+    public void NotifyAnimationEnd(string animationName)
     {
-        animator.Play(animationName);
-        StartCoroutine(WaitForAnimation(animationName));
+        Debug.Log($"Animation {animationName} finished.");
+        OnAnimationEnd?.Invoke(animationName);
     }
 
 }

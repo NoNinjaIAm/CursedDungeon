@@ -1,35 +1,49 @@
 using UnityEngine;
+using System.Collections;
+using System.Xml.Serialization;
 
 public class EntityMovement : MonoBehaviour
 {
     public float speed = 5f;  // Movement speed
     private Rigidbody2D rb;   // Rigidbody2D for physics handling
     private Vector2 moveDirection;  // Direction of movement
-    private bool isChallengeActive = true;
+
+    public GameEnums.MovementAI MovementAI { private get; set; } = GameEnums.MovementAI.Bounce;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         moveDirection = transform.up;  // Start moving in the direction of 'up' on the entity
-        
         // Events
         PlayerController.OnPlayerStoppedOutcome += OnPlayerStoppedOutcome;
+
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        if (isChallengeActive) // Challenge is active
+        switch (MovementAI)
         {
-            // Always move in the current direction (forward)
-            rb.linearVelocity = moveDirection * speed;
-
-            // Ensure the entity's rotation matches the direction of movement
-            if (moveDirection != Vector2.zero)
-            {
-                transform.up = moveDirection;  // Keep the top of the entity facing the movement direction
-            }
+            case GameEnums.MovementAI.Bounce:
+                BounceAI();
+                break;
+            case GameEnums.MovementAI.PingPong:
+                Debug.Log("Ping Pong Chosen");
+                break;
         }
     }
+
+    private void BounceAI()
+    {  
+        // Always move in the current direction (forward)
+        rb.linearVelocity = moveDirection * speed;
+
+        // Ensure the entity's rotation matches the direction of movement
+        if (moveDirection != Vector2.zero)
+        {
+            transform.up = moveDirection;  // Keep the top of the entity facing the movement direction
+        }    
+    }
+
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -42,8 +56,10 @@ public class EntityMovement : MonoBehaviour
 
     private void OnPlayerStoppedOutcome(bool outcome)
     {
-        isChallengeActive = false;
         rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
+        
+        // Disable myself afterwards
+        gameObject.SetActive(false);
     }
 
     private void OnDestroy()

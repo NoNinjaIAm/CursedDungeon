@@ -1,5 +1,6 @@
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using static GameEnums;
 
 public class SpawnManager : MonoBehaviour
 {
@@ -12,12 +13,13 @@ public class SpawnManager : MonoBehaviour
     void Start()
     {
         GameManager.OnChallengeStart += OnChallengeStart;
+        
     }
-
+    
     private void OnChallengeStart()
     {
         SpawnLock();
-        SpawnDistractions(100);
+        SpawnDistractions(10);
     }
 
     private void SpawnLock()
@@ -31,10 +33,33 @@ public class SpawnManager : MonoBehaviour
     {
         for (int i=0; i<amount; i++)
         {
+            // Get values for distraction
+            MovementAI movementAI = GetRandomMovementAI();
             Vector2 spawnPos = GetRandomSpawnPos();
-            Quaternion rotationPos = Quaternion.Euler(distractionPrefab.transform.rotation.x, distractionPrefab.transform.rotation.y, GetRandomAxisRotation());
-            Instantiate(distractionPrefab, spawnPos, rotationPos);
+            Quaternion rotationPos = Quaternion.Euler(0, 0, GetRandomAxisRotation()) * distractionPrefab.transform.rotation;
+
+            // Instantiate and access the object
+            GameObject distraction = Instantiate(distractionPrefab, spawnPos, rotationPos);
+
+            // Set the AI
+            EntityMovement movement = distraction.GetComponent<EntityMovement>();
+            if (movement != null)
+            {
+                movement.MovementAI = movementAI;
+            }
+            else
+            {
+                Debug.LogWarning("WARNING: SpawnManager tried to grab a null EntityMovement Component!!!");
+            }
         }
+    }
+
+    private MovementAI GetRandomMovementAI()
+    {
+        // Get all enum values as an array
+        MovementAI[] values = (MovementAI[])System.Enum.GetValues(typeof(MovementAI));
+        // Return the randomly selected value
+        return values[Random.Range(0, values.Length)];
     }
 
     private Vector2 GetRandomSpawnPos()
