@@ -97,7 +97,7 @@ public class GameManager : MonoBehaviour
     {
         // Activate Game
         playerController.gameObject.SetActive(true);
-        OnChallengeStart();
+        OnChallengeStart?.Invoke();
     }
 
     private void OnPlayerStoppedOutcome (bool outcome)
