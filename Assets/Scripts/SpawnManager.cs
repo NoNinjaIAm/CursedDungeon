@@ -1,13 +1,17 @@
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.UIElements;
 using static GameEnums;
 
 public class SpawnManager : MonoBehaviour
 {
     [SerializeField] private GameObject lockPrefab;
-    [SerializeField] private GameObject distractionPrefab;
+    [SerializeField] private GameObject[] distractionPrefabs;
     [SerializeField] private float spawnXBound = 7.5f;
     [SerializeField] private float spawnYBound = 4.5f;
+
+    [SerializeField] private Vector2 noSpawnZoneMin = new Vector2(-1.5f, -4.5f);
+    [SerializeField] private Vector2 noSpawnZoneMax = new Vector2(1.5f, 1.75f);
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -33,16 +37,19 @@ public class SpawnManager : MonoBehaviour
     {
         for (int i=0; i<amount; i++)
         {
+            // Get a random distraction
+            var distraction = distractionPrefabs[Random.Range(0, distractionPrefabs.Length)];
+
             // Get values for distraction
             MovementAI movementAI = GetRandomMovementAI();
             Vector2 spawnPos = GetRandomSpawnPos();
-            Quaternion rotationPos = Quaternion.Euler(0, 0, GetRandomAxisRotation()) * distractionPrefab.transform.rotation;
-
+            Quaternion rotationPos = Quaternion.Euler(0, 0, GetRandomAxisRotation()) * distraction.transform.rotation;
+            
             // Instantiate and access the object
-            GameObject distraction = Instantiate(distractionPrefab, spawnPos, rotationPos);
+            var distractionInstance = Instantiate(distraction, spawnPos, rotationPos);
 
             // Set the AI
-            EntityMovement movement = distraction.GetComponent<EntityMovement>();
+            EntityMovement movement = distractionInstance.GetComponent<EntityMovement>();
             if (movement != null)
             {
                 movement.MovementAI = movementAI;
@@ -64,7 +71,27 @@ public class SpawnManager : MonoBehaviour
 
     private Vector2 GetRandomSpawnPos()
     {
-        return new Vector2(Random.Range(-spawnXBound, spawnXBound), Random.Range(-spawnYBound, spawnYBound));
+        Vector2 spawnPos;
+        int attempts = 0;
+        const int maxAttempts = 100;
+
+        // Keep trying to get spawn position that isn't in no spawn zone
+        do
+        {
+            spawnPos = new Vector2(Random.Range(-spawnXBound, spawnXBound), Random.Range(-spawnYBound, spawnYBound));
+            attempts++;
+        }
+        while (IsInsideNoSpawnZone(spawnPos) && attempts < maxAttempts);
+
+        if(attempts >= maxAttempts) Debug.LogWarning("Warning: SpawnManager could not find valid spawn position in enough attempts! Spawning anyway");
+        return spawnPos;
+
+    }
+
+    private bool IsInsideNoSpawnZone(Vector3 pos)
+    {
+        return pos.x > noSpawnZoneMin.x && pos.x < noSpawnZoneMax.x &&
+        pos.y > noSpawnZoneMin.y && pos.y < noSpawnZoneMax.y;
     }
 
     private float GetRandomAxisRotation ()

@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 7cc0d4fe6ac272f448dfd863677e5453
+guid: dfcef6f19ab880042b402d3f8ed1faa9
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2769759516210539479
-    second: CutBackgroundNoDoor_0
+      213: 4937755100814578279
+    second: MenuBackgroundPerson_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -72,7 +72,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 4096
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -113,12 +113,12 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: CutBackgroundNoDoor_0
+      name: MenuBackgroundPerson_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 139
         y: 0
-        width: 320
+        width: 181
         height: 180
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 92453031566df89d0800000000000000
-      internalID: -2769759516210539479
+      spriteID: 7621de35a1e668440800000000000000
+      internalID: 4937755100814578279
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      CutBackgroundNoDoor_0: -2769759516210539479
+      MenuBackgroundPerson_0: 4937755100814578279
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

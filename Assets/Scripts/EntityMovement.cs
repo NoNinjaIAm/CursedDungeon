@@ -7,6 +7,7 @@ public class EntityMovement : MonoBehaviour
     public float speed = 5f;  // Movement speed
     private Rigidbody2D rb;   // Rigidbody2D for physics handling
     private Vector2 moveDirection;  // Direction of movement
+    private float spinSpeed;  // Direction of movement
 
     public GameEnums.MovementAI MovementAI { private get; set; } = GameEnums.MovementAI.Bounce;
 
@@ -16,6 +17,7 @@ public class EntityMovement : MonoBehaviour
         moveDirection = transform.up;  // Start moving in the direction of 'up' on the entity
         // Events
         PlayerController.OnPlayerStoppedOutcome += OnPlayerStoppedOutcome;
+        spinSpeed = Random.Range(-360f, 360f);
 
     }
 
@@ -26,8 +28,8 @@ public class EntityMovement : MonoBehaviour
             case GameEnums.MovementAI.Bounce:
                 BounceAI();
                 break;
-            case GameEnums.MovementAI.PingPong:
-                Debug.Log("Ping Pong Chosen");
+            case GameEnums.MovementAI.Float:
+                FloatAI();
                 break;
         }
     }
@@ -42,6 +44,11 @@ public class EntityMovement : MonoBehaviour
         {
             transform.up = moveDirection;  // Keep the top of the entity facing the movement direction
         }    
+    }
+
+    private void FloatAI()
+    {
+        rb.angularVelocity = spinSpeed;
     }
 
 

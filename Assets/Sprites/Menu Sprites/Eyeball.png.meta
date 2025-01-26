@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 7cc0d4fe6ac272f448dfd863677e5453
+guid: 912f3c38bdc02834f8af3f085fffa79a
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2769759516210539479
-    second: CutBackgroundNoDoor_0
+      213: -2792402802363126846
+    second: Eyeball_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -72,7 +72,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 4096
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: CutBackgroundNoDoor_0
+      name: Eyeball_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 320
-        height: 180
+        width: 24
+        height: 24
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 92453031566df89d0800000000000000
-      internalID: -2769759516210539479
+      spriteID: 2cb275f22746f39d0800000000000000
+      internalID: -2792402802363126846
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      CutBackgroundNoDoor_0: -2769759516210539479
+      Eyeball_0: -2792402802363126846
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
