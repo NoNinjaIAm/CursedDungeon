@@ -9,6 +9,7 @@ public class AnimationManager : MonoBehaviour
     public static AnimationManager Instance { get; private set; }
 
     public event Action<string> OnAnimationEnd;
+    public static event Action<string> OnAnimationAction;
     private void Awake()
     {
         if (Instance == null) Instance = this;
@@ -32,6 +33,11 @@ public class AnimationManager : MonoBehaviour
     {
         Debug.Log($"Animation {animationName} finished.");
         OnAnimationEnd?.Invoke(animationName);
+    }
+
+    public void FireActionEvent(string eventName)
+    {
+        OnAnimationAction?.Invoke(eventName);
     }
 
 }

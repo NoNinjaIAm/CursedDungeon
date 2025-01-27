@@ -130,9 +130,9 @@ GameObject:
   - component: {fileID: 28471971}
   - component: {fileID: 28471973}
   - component: {fileID: 28471972}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: WallLeft
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1178,9 +1178,9 @@ GameObject:
   - component: {fileID: 843260288}
   - component: {fileID: 843260290}
   - component: {fileID: 843260289}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: WallTop
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1331,7 +1331,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lockPrefab: {fileID: 6761769578986356528, guid: a4ca38ab798621346b699215b7b0d665, type: 3}
-  distractionPrefab: {fileID: 1403931977153785180, guid: f844f3a8a3bf86f4583528359fffb6df, type: 3}
+  distractionPrefabs:
+  - {fileID: 1403931977153785180, guid: f844f3a8a3bf86f4583528359fffb6df, type: 3}
+  - {fileID: 6780992075905046157, guid: 47b55f1a3b7c06b48a83356aea3d36b8, type: 3}
   spawnXBound: 7.5
   spawnYBound: 4.5
   noSpawnZoneMin: {x: -1.5, y: -4.5}
@@ -1599,7 +1601,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 3.2, y: 1.8}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
@@ -2136,9 +2138,9 @@ GameObject:
   - component: {fileID: 1615842361}
   - component: {fileID: 1615842363}
   - component: {fileID: 1615842362}
-  m_Layer: 0
-  m_Name: WallLeft (1)
-  m_TagString: Untagged
+  m_Layer: 7
+  m_Name: WallRight
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2439,51 +2441,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!1 &1841470189
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1841470191}
-  - component: {fileID: 1841470190}
-  m_Layer: 0
-  m_Name: UiHandler
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1841470190
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1841470189}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5146cacb13dc9f418767711c53c7251, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gameoverScreen: {fileID: 85581581}
---- !u!4 &1841470191
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1841470189}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 245.27971, y: 155.8356, z: -1.0442054}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1841700373
 GameObject:
   m_ObjectHideFlags: 0
@@ -2496,6 +2453,7 @@ GameObject:
   - component: {fileID: 1841700376}
   - component: {fileID: 1841700375}
   - component: {fileID: 1841700374}
+  - component: {fileID: 1841700378}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -2587,6 +2545,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1841700378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1841700373}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5146cacb13dc9f418767711c53c7251, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameoverScreen: {fileID: 85581581}
 --- !u!1 &1870230396
 GameObject:
   m_ObjectHideFlags: 0
@@ -2832,9 +2803,9 @@ GameObject:
   - component: {fileID: 2072002259}
   - component: {fileID: 2072002261}
   - component: {fileID: 2072002260}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: WallBottom
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2967,5 +2938,4 @@ SceneRoots:
   - {fileID: 645781179}
   - {fileID: 1841700377}
   - {fileID: 696448692}
-  - {fileID: 1841470191}
   - {fileID: 563415276}

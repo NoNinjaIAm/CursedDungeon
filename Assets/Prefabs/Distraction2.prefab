@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7033156716648740129}
   - component: {fileID: 810814954626963302}
   - component: {fileID: 8279412591253482402}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Distraction2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -178,6 +178,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
+  spawnXBound: 7.5
+  spawnYBound: 4.5
+  noSpawnZoneMin: {x: -1.5, y: -4.5}
+  noSpawnZoneMax: {x: 1.5, y: 1.75}
 --- !u!114 &810814954626963302
 MonoBehaviour:
   m_ObjectHideFlags: 0

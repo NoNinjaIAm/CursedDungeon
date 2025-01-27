@@ -7,22 +7,19 @@ public class HandleGameUI : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        PlayerController.OnPlayerStoppedOutcome += OnPlayerStopped;
+        GameManager.OnGameOver += OnGameOver;
     }
 
-    private void OnPlayerStopped(bool outcome)
+    private void OnGameOver()
     {
-        if(!outcome)
-        {
-            gameoverScreen.SetActive(true);
+        gameoverScreen.SetActive(true);
 
-            // Don't gotta listen anymore for event
-            PlayerController.OnPlayerStoppedOutcome -= OnPlayerStopped;
-        }
+        // Don't gotta listen anymore for event
+        GameManager.OnGameOver -= OnGameOver;
     }
 
     private void OnDestroy()
     {
-        PlayerController.OnPlayerStoppedOutcome -= OnPlayerStopped;
+        GameManager.OnGameOver -= OnGameOver;
     }
 }

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1617811848319878510}
   - component: {fileID: 8986725912705992686}
   - component: {fileID: 6341838105987837168}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Distraction1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32,8 +32,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.21948011, w: 0.97561693}
   m_LocalPosition: {x: 3.646402, y: 0.9770386, z: 0}
-  m_LocalScale: {x: 2.11, y: 3.7678568, z: 3.7678568}
-  m_ConstrainProportionsScale: 1
+  m_LocalScale: {x: 2.68, y: 3.7678568, z: 3.7678568}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 25.357}
@@ -178,6 +178,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
+  spawnXBound: 7.5
+  spawnYBound: 4.5
+  noSpawnZoneMin: {x: -1.5, y: -4.5}
+  noSpawnZoneMax: {x: 1.5, y: 1.75}
 --- !u!114 &8986725912705992686
 MonoBehaviour:
   m_ObjectHideFlags: 0

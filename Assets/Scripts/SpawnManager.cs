@@ -13,6 +13,8 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private Vector2 noSpawnZoneMin = new Vector2(-1.5f, -4.5f);
     [SerializeField] private Vector2 noSpawnZoneMax = new Vector2(1.5f, 1.75f);
 
+    private int distractionsToSpawn = 20; 
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -23,14 +25,25 @@ public class SpawnManager : MonoBehaviour
     private void OnChallengeStart()
     {
         SpawnLock();
-        SpawnDistractions(10);
+        SpawnDistractions(distractionsToSpawn);
     }
 
     private void SpawnLock()
     {
         Vector2 spawnPos = GetRandomSpawnPos();
 
-        Instantiate(lockPrefab, spawnPos, lockPrefab.transform.rotation);
+        var lockInstance = Instantiate(lockPrefab, spawnPos, lockPrefab.transform.rotation);
+        // Set the AI
+        EntityMovement movement = lockInstance.GetComponent<EntityMovement>();
+        if (movement != null)
+        {
+            movement.MovementAI = MovementAI.PingPong;
+            movement.LockRotation = true;
+        }
+        else
+        {
+            Debug.LogWarning("WARNING: SpawnManager tried to grab a null EntityMovement Component!!!");
+        }
     }
 
     private void SpawnDistractions(int amount)

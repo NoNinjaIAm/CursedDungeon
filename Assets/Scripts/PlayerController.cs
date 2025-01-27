@@ -7,6 +7,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GazeDetector playerGaze;
     [SerializeField] private ChallengeTimer challengeTimer;
 
+    private bool isSpinning = false;
+
     // If the player stopped on the lock, then this sends "true"
     // If the player stopped but not on the lock, then this sends "false"
     public static event Action<bool> OnPlayerStoppedOutcome;
@@ -18,13 +20,15 @@ public class PlayerController : MonoBehaviour
     private void OnEnable()
     {
         pivotSpinner.StartSpinning();
+        isSpinning = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Space))
+        if(Input.GetKeyDown(KeyCode.Space) && isSpinning)
         {
+            isSpinning = false;
             StopEye();
         }
     }

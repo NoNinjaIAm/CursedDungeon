@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int score;
     [SerializeField] private int highscore;
     public static event Action OnChallengeStart;
+    public static event Action OnGameOver; // Tells when game is lost
+    private bool PlayerOutcomeStatusTemp;
 
     private void Awake()
     {
@@ -52,8 +54,10 @@ public class GameManager : MonoBehaviour
                 AnimationManager.Instance.PlayAnimation("StartGameTransition");
             }
             else Debug.LogError("ERROR: GAMEMANAGER CANNOT FIND ANIMATIONMANAGER INSTANCE");
-
-
+        }
+        else // In Menu
+        {
+            SoundManager.instance.PlayMusic();
         }
         
     }
@@ -65,9 +69,40 @@ public class GameManager : MonoBehaviour
         {
             StartChallenge();
         }
+        else if(name == "EvaluateResults")
+        {
+            ProcessChallengeResults();
+        }
         else
         {
             Debug.LogWarning("Some Animation Finished and GameManager did not account for it.");
+        }
+    }
+
+    private void ProcessChallengeResults()
+    {
+        if (PlayerOutcomeStatusTemp)
+        {
+            // Deactivate Game
+            playerController.gameObject.SetActive(false);
+            score++;
+            Debug.Log("Challenge Passed. New Score: " + score);
+
+            // Play cutscene and wait
+            AnimationManager.Instance.PlayAnimation("LevelTransition");
+        }
+        // If failed challenge
+        else
+        {
+            // Invoke GameOver event
+            OnGameOver?.Invoke();
+            Debug.Log("Game Over!!!");
+
+            //playerController.gameObject.SetActive(false);
+            UnsubscribeToGameSceneEvents();
+            // TODO: Highscore stuff
+            AnimationManager.Instance.PlayAnimation("ChallengeFailed");
+            CheckHighscore();
         }
     }
 
@@ -93,29 +128,8 @@ public class GameManager : MonoBehaviour
 
     private void OnPlayerStoppedOutcome (bool outcome)
     {
-        // If passed challenge
-        if (outcome)
-        {
-            // Deactivate Game
-            playerController.gameObject.SetActive(false);
-            score++;
-            Debug.Log("Challenge Passed. New Score: " + score);
-            
-            // Play cutscene and wait
-            AnimationManager.Instance.PlayAnimation("LevelTransition");
-        }
-        // If failed challenge
-        else
-        {
-            Debug.Log("Game Over!!!");
-
-            playerController.gameObject.SetActive(false);
-            UnsubscribeToGameSceneEvents();
-            // TODO: Highscore stuff
-            AnimationManager.Instance.PlayAnimation("ChallengeFailed");
-            CheckHighscore();
-        }
-        
+        PlayerOutcomeStatusTemp = outcome;
+        AnimationManager.Instance.PlayAnimation("EvaluateResults");
     }
 
     private void CheckHighscore ()
