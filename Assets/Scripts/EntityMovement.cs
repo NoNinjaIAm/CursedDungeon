@@ -25,7 +25,7 @@ public class EntityMovement : MonoBehaviour
     private bool movingToTarget;
 
     // Properties
-    public GameEnums.MovementAI MovementAI { private get; set; } = GameEnums.MovementAI.Bounce;
+    public GameEnums.MovementAI MovementAI { private get; set; }
     public bool LockRotation { private get; set; } = false;
 
     private void Start()
@@ -50,6 +50,8 @@ public class EntityMovement : MonoBehaviour
                 targetPosition = GetRandomPos();
                 movingToTarget = true;
                 break;
+            default:
+                break;
         }
     }
 
@@ -67,6 +69,8 @@ public class EntityMovement : MonoBehaviour
                 break;
             case GameEnums.MovementAI.PingPong:
                 PingPongAI();
+                break;
+            case GameEnums.MovementAI.None:
                 break;
         }
     }

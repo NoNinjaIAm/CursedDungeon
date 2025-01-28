@@ -6,6 +6,14 @@ public static class GameEnums
     {
         Bounce,
         Float,
-        PingPong
+        PingPong,
+        None
+    }
+    public enum GameDifficulty
+    {
+        Easy,
+        Medium,
+        Hard,
+        VeryHard
     }
 }

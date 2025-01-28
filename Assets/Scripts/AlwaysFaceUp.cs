@@ -1,10 +1,7 @@
 using UnityEngine;
 
-public class FaceAwayFromPoint : MonoBehaviour
+public class AlwaysFaceUp : MonoBehaviour
 {
-    [SerializeField] private GameObject pointToLookAwayFrom;
-
-    // Update is called once per frame
     void Update()
     {
         Vector3 destination = Vector3.down;

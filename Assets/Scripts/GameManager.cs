@@ -3,6 +3,7 @@ using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.SocialPlatforms.Impl;
+using static GameEnums;
 
 public class GameManager : MonoBehaviour
 {
@@ -11,9 +12,14 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private int score;
     [SerializeField] private int highscore;
+
+    // Events
     public static event Action OnChallengeStart;
     public static event Action OnGameOver; // Tells when game is lost
+    public static event Action<GameDifficulty> OnDifficultyChanged;
+
     private bool PlayerOutcomeStatusTemp;
+    private GameDifficulty currentDifficulty;
 
     private void Awake()
     {
@@ -54,6 +60,10 @@ public class GameManager : MonoBehaviour
                 AnimationManager.Instance.PlayAnimation("StartGameTransition");
             }
             else Debug.LogError("ERROR: GAMEMANAGER CANNOT FIND ANIMATIONMANAGER INSTANCE");
+
+            // Set Game Initial Difficukty
+            currentDifficulty = GameDifficulty.Easy;
+            OnDifficultyChanged?.Invoke(currentDifficulty);
         }
         else // In Menu
         {
@@ -83,9 +93,11 @@ public class GameManager : MonoBehaviour
     {
         if (PlayerOutcomeStatusTemp)
         {
+            // Increase Score
+            HandleScoreChange();
+
             // Deactivate Game
             playerController.gameObject.SetActive(false);
-            score++;
             Debug.Log("Challenge Passed. New Score: " + score);
 
             // Play cutscene and wait
@@ -104,6 +116,27 @@ public class GameManager : MonoBehaviour
             AnimationManager.Instance.PlayAnimation("ChallengeFailed");
             CheckHighscore();
         }
+    }
+
+    private void HandleScoreChange()
+    {
+        score++;
+        if (score == 3)
+        {
+            currentDifficulty = GameDifficulty.Medium;
+            OnDifficultyChanged?.Invoke(GameDifficulty.Medium);
+        }
+        else if (score == 6)
+        {
+            currentDifficulty = GameDifficulty.Hard;
+            OnDifficultyChanged?.Invoke(GameDifficulty.Hard);
+        }
+        else if (score == 10)
+        {
+            currentDifficulty = GameDifficulty.VeryHard;
+            OnDifficultyChanged?.Invoke(GameDifficulty.VeryHard);
+        }
+        Debug.Log("Difficulty Is: " + currentDifficulty);
     }
 
     private void FindPlayerController()

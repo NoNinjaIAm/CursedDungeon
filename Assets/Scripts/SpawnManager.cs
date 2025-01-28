@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -5,6 +6,15 @@ using static GameEnums;
 
 public class SpawnManager : MonoBehaviour
 {
+    public struct SpawnSettings
+    {
+        public int minDisSpawnAmount;
+        public int maxDisSpawnAmount;
+        public float lockMovesProbability;
+    }
+    private Dictionary<GameDifficulty, SpawnSettings> spawnSettings;
+    private GameDifficulty currentDifficulty;
+
     [SerializeField] private GameObject lockPrefab;
     [SerializeField] private GameObject[] distractionPrefabs;
     [SerializeField] private float spawnXBound = 7.5f;
@@ -12,32 +22,58 @@ public class SpawnManager : MonoBehaviour
 
     [SerializeField] private Vector2 noSpawnZoneMin = new Vector2(-1.5f, -4.5f);
     [SerializeField] private Vector2 noSpawnZoneMax = new Vector2(1.5f, 1.75f);
-
-    private int distractionsToSpawn = 20; 
+    
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         GameManager.OnChallengeStart += OnChallengeStart;
-        
+        GameManager.OnDifficultyChanged += OnDifficultyChanged;
     }
-    
+
+    private void Awake()
+    {
+        spawnSettings = new Dictionary<GameDifficulty, SpawnSettings>
+        {
+            { GameDifficulty.Easy, new SpawnSettings {minDisSpawnAmount = 5, maxDisSpawnAmount = 10, lockMovesProbability = 0.1f} },
+            { GameDifficulty.Medium, new SpawnSettings {minDisSpawnAmount = 15, maxDisSpawnAmount = 40, lockMovesProbability = 0.3f} },
+            { GameDifficulty.Hard, new SpawnSettings {minDisSpawnAmount = 40, maxDisSpawnAmount = 75, lockMovesProbability = 0.6f} },
+            { GameDifficulty.VeryHard, new SpawnSettings {minDisSpawnAmount = 50, maxDisSpawnAmount = 100, lockMovesProbability = 0.9f} }
+        };
+
+        // Easy by default
+        currentDifficulty = GameDifficulty.Easy;
+    }
+
     private void OnChallengeStart()
     {
         SpawnLock();
-        SpawnDistractions(distractionsToSpawn);
+        SpawnDistractions();
     }
 
     private void SpawnLock()
     {
+        SpawnSettings settings = spawnSettings[currentDifficulty]; // get current difficulty
         Vector2 spawnPos = GetRandomSpawnPos();
+        MovementAI movementAI;
 
         var lockInstance = Instantiate(lockPrefab, spawnPos, lockPrefab.transform.rotation);
+        
+        // If the lock moves give it an AI, else give it a null AI
+        if(settings.lockMovesProbability > Random.Range(0.0f, 1.0f))
+        {
+            movementAI = MovementAI.PingPong;
+            Debug.Log("Lock will move. Move Prob: " + settings.lockMovesProbability);
+        }
+        else movementAI = MovementAI.None;
+        
+        
+        
         // Set the AI
         EntityMovement movement = lockInstance.GetComponent<EntityMovement>();
         if (movement != null)
         {
-            movement.MovementAI = MovementAI.PingPong;
+            movement.MovementAI = movementAI;
             movement.LockRotation = true;
         }
         else
@@ -46,8 +82,32 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
-    private void SpawnDistractions(int amount)
+    private void OnDifficultyChanged(GameDifficulty difficulty)
     {
+        switch(difficulty)
+        {
+            case GameDifficulty.Easy:
+                currentDifficulty = GameDifficulty.Easy;
+                break;
+            case GameDifficulty.Medium:
+                currentDifficulty = GameDifficulty.Medium;
+                break;
+            case GameDifficulty.Hard:
+                currentDifficulty = GameDifficulty.Hard;
+                break;
+            case GameDifficulty.VeryHard:
+                currentDifficulty = GameDifficulty.VeryHard;
+                break;
+        }
+    }
+
+    private void SpawnDistractions()
+    {
+        SpawnSettings settings = spawnSettings[currentDifficulty]; // get current difficulty
+        int amount = Random.Range(settings.minDisSpawnAmount, settings.maxDisSpawnAmount);
+
+        Debug.Log("Spawning " + amount + " distractions");
+
         for (int i=0; i<amount; i++)
         {
             // Get a random distraction
@@ -79,7 +139,7 @@ public class SpawnManager : MonoBehaviour
         // Get all enum values as an array
         MovementAI[] values = (MovementAI[])System.Enum.GetValues(typeof(MovementAI));
         // Return the randomly selected value
-        return values[Random.Range(0, values.Length)];
+        return values[Random.Range(0, values.Length-1)];
     }
 
     private Vector2 GetRandomSpawnPos()
@@ -115,5 +175,6 @@ public class SpawnManager : MonoBehaviour
     private void OnDestroy()
     {
         GameManager.OnChallengeStart -= OnChallengeStart;
+        GameManager.OnDifficultyChanged -= OnDifficultyChanged;
     }
 }
