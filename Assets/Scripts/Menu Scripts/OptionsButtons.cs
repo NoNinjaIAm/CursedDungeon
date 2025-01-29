@@ -9,11 +9,14 @@ public class OptionsButtons : MonoBehaviour
 
     public void OnOptionButtonClicked()
     {
+        SoundManager.Instance.PlaySound("Menu Button Click");
         OnOptionsToggled?.Invoke(true);
     }
 
     public void OnBackButtonClicked()
     {
+        SoundManager.Instance.PlaySound("Menu Button Click");
         OnOptionsToggled?.Invoke(false);
+        SoundManager.Instance.SaveSoundSettings();
     }
 }

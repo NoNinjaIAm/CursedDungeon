@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
 
     [SerializeField] private int score;
-    [SerializeField] private int highscore;
+    public static int Highscore { get; private set; }
 
     // Events
     public static event Action OnChallengeStart;
@@ -35,6 +35,9 @@ public class GameManager : MonoBehaviour
 
         // Listen for events
         SceneManager.sceneLoaded += OnSceneLoaded;
+
+        // Load Save data
+        Highscore = PlayerPrefs.GetInt("Highscore", 0); // 0 is the default value
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -44,6 +47,7 @@ public class GameManager : MonoBehaviour
         // If we're in the game scene
         if(currentSceneIndex == 1)
         {
+            SoundManager.Instance.StopMusic();
             // Reset Score
             score = 0;
 
@@ -67,7 +71,7 @@ public class GameManager : MonoBehaviour
         }
         else // In Menu
         {
-            SoundManager.instance.PlayMusic();
+            SoundManager.Instance.PlayMusic("MenuMusic");
         }
         
     }
@@ -167,17 +171,25 @@ public class GameManager : MonoBehaviour
 
     private void CheckHighscore ()
     {
-        if (score > highscore)
+        if (score > Highscore)
         {
-            highscore = score;
-            Debug.Log("New Highscore: " + highscore);
+            Highscore = score;
+            
+            // Save highsore
+            PlayerPrefs.SetInt("Highscore", Highscore);
+            PlayerPrefs.Save();
+
+            Debug.Log("New Highscore: " + Highscore);
         }
     }
 
     private void UnsubscribeToGameSceneEvents()
     {
+        if(AnimationManager.Instance != null)
+        {
+            AnimationManager.Instance.OnAnimationEnd -= OnAnimationManagerFinishedAnimation;
+        }
         PlayerController.OnPlayerStoppedOutcome -= OnPlayerStoppedOutcome;
-        AnimationManager.Instance.OnAnimationEnd -= OnAnimationManagerFinishedAnimation;
     }
 
     // On Destroy
@@ -190,4 +202,5 @@ public class GameManager : MonoBehaviour
             UnsubscribeToGameSceneEvents();
         }
     }
+
 }

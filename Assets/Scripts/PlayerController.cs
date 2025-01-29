@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     }
     private void OnEnable()
     {
+        SoundManager.Instance.PlayMusic("Tense Music");
         pivotSpinner.StartSpinning();
         isSpinning = true;
     }
@@ -29,6 +30,11 @@ public class PlayerController : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Space) && isSpinning)
         {
             isSpinning = false;
+            
+            // Sound stuff
+            SoundManager.Instance.StopMusic();
+            SoundManager.Instance.PlaySound("Bugs Die");
+            
             StopEye();
         }
     }

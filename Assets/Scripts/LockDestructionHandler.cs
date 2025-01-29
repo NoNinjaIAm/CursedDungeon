@@ -24,7 +24,12 @@ public class LockDestructionHandler : MonoBehaviour
             {
                 // To do effects
                 Debug.Log("Killing Lock");
+                SoundManager.Instance.PlaySound("Lock Broken");
                 Destroy(gameObject);
+            }
+            else
+            {
+                SoundManager.Instance.PlaySound("Lock Failed To Break");
             }
 
             AnimationManager.OnAnimationAction -= OnAnimationAction;

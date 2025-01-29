@@ -7,6 +7,7 @@ public class ChangeSceneButton : MonoBehaviour
 
     public void ChangeScene()
     {
+        SoundManager.Instance.PlaySound("Transition Button");
         SceneManager.LoadScene(sceneIndex);
     }
 }

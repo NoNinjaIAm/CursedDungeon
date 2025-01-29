@@ -45,7 +45,6 @@ public class ChallengeEventManager : MonoBehaviour
             Debug.Log("Trying for Event");
             TryForEvent();
         }
-        Debug.Log("EventManager Recieved this animation action: " + action);
     }
 
     private void TryForEvent()

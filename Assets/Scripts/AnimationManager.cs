@@ -40,4 +40,9 @@ public class AnimationManager : MonoBehaviour
         OnAnimationAction?.Invoke(eventName);
     }
 
+    public void PlaySoundEffect(string soundName)
+    {
+        SoundManager.Instance.PlaySound(soundName);
+    }
+
 }
