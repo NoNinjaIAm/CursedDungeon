@@ -194,6 +194,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9c065507fa6d6746be91ba9cce18687, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  destroyVFX: {fileID: 8158077955739834995, guid: d43442a335e5230458f920c9874439e7, type: 3}
 --- !u!95 &8279412591253482402
 Animator:
   serializedVersion: 7

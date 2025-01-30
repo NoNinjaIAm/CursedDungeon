@@ -26,10 +26,10 @@ public class ChallengeEventManager : MonoBehaviour
     {
         settings = new Dictionary<GameDifficulty, float>
         {
-            {GameDifficulty.Easy, 1f },
+            {GameDifficulty.Easy, .2f },
             {GameDifficulty.Medium, .2f },
-            {GameDifficulty.Hard, .3f },
-            {GameDifficulty.VeryHard, .5f }
+            {GameDifficulty.Hard, .35f },
+            {GameDifficulty.VeryHard, .6f }
         };
     }
 

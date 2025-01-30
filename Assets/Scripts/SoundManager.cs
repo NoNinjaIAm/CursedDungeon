@@ -59,6 +59,7 @@ public class SoundManager : MonoBehaviour
         if (sound != null)
         {
             AudioSource tempSrc = gameObject.AddComponent<AudioSource>();
+            tempSrc.volume = 0.1f;
             tempSrc.PlayOneShot(sound);
             Destroy(tempSrc, sound.length);
         }

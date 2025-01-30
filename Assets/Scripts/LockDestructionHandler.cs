@@ -3,6 +3,7 @@ using UnityEngine;
 public class LockDestructionHandler : MonoBehaviour
 {
     private bool playerPassed = false;
+    [SerializeField] private GameObject explosionVFX;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -25,6 +26,7 @@ public class LockDestructionHandler : MonoBehaviour
                 // To do effects
                 Debug.Log("Killing Lock");
                 SoundManager.Instance.PlaySound("Lock Broken");
+                Instantiate(explosionVFX, transform.position, explosionVFX.transform.rotation);
                 Destroy(gameObject);
             }
             else
