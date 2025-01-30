@@ -7,7 +7,7 @@ public class SoundManager : MonoBehaviour
     private float musicVolume;
     public AudioSource musicSource;
 
-    private float defaultMusicVolume = 0.4f;
+    private float defaultMusicVolume = 0.117f;
 
     // This is a lazy singleton instance that can be used universally to play sounds!!
     // Architecture is the music has one continous audio source attached to the gameObject
