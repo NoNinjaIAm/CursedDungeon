@@ -183,6 +183,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public int GetScore()
+    {
+        return score;
+    }
+
     private void UnsubscribeToGameSceneEvents()
     {
         if(AnimationManager.Instance != null)
