@@ -125,17 +125,17 @@ public class GameManager : MonoBehaviour
     private void HandleScoreChange()
     {
         score++;
-        if (score == 3)
+        if (score == 5)
         {
             currentDifficulty = GameDifficulty.Medium;
             OnDifficultyChanged?.Invoke(GameDifficulty.Medium);
         }
-        else if (score == 6)
+        else if (score == 12)
         {
             currentDifficulty = GameDifficulty.Hard;
             OnDifficultyChanged?.Invoke(GameDifficulty.Hard);
         }
-        else if (score == 10)
+        else if (score == 17)
         {
             currentDifficulty = GameDifficulty.VeryHard;
             OnDifficultyChanged?.Invoke(GameDifficulty.VeryHard);

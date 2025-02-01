@@ -24,6 +24,7 @@ public class HandleGameUI : MonoBehaviour
 
     private void OnGameOver()
     {
+        SoundManager.Instance.PlaySound("GameOver");
         gameoverScreen.SetActive(true);
 
         // Don't gotta listen anymore for event

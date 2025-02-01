@@ -151,7 +151,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minScale: 0.5
-  maxScale: 1.5
+  maxScale: 1.25
 --- !u!114 &-6690419754241440560
 MonoBehaviour:
   m_ObjectHideFlags: 0

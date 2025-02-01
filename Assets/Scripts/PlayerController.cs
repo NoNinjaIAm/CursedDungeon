@@ -29,18 +29,18 @@ public class PlayerController : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Space) && isSpinning)
         {
-            isSpinning = false;
-            
-            // Sound stuff
-            SoundManager.Instance.StopMusic();
-            SoundManager.Instance.PlaySound("Bugs Die");
-            
             StopEye();
         }
     }
 
     void StopEye()
     {
+        isSpinning = false;
+
+        // Sound stuff
+        SoundManager.Instance.StopMusic();
+        SoundManager.Instance.PlaySound("Bugs Die");
+
         pivotSpinner.StopSpinning();
         if (playerGaze.IsLookingAtLock)
         {
@@ -56,7 +56,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnTimesUp()
     {
-        OnPlayerStoppedOutcome?.Invoke(false); // times up so we end challenge with failiure
+        StopEye(); // Force Stop Eye
     }
 
     private void OnDestroy()

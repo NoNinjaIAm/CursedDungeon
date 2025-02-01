@@ -35,10 +35,10 @@ public class SpawnManager : MonoBehaviour
     {
         spawnSettings = new Dictionary<GameDifficulty, SpawnSettings>
         {
-            { GameDifficulty.Easy, new SpawnSettings {minDisSpawnAmount = 5, maxDisSpawnAmount = 10, lockMovesProbability = 0.1f} },
-            { GameDifficulty.Medium, new SpawnSettings {minDisSpawnAmount = 15, maxDisSpawnAmount = 40, lockMovesProbability = 0.3f} },
-            { GameDifficulty.Hard, new SpawnSettings {minDisSpawnAmount = 40, maxDisSpawnAmount = 75, lockMovesProbability = 0.6f} },
-            { GameDifficulty.VeryHard, new SpawnSettings {minDisSpawnAmount = 50, maxDisSpawnAmount = 100, lockMovesProbability = 0.9f} }
+            { GameDifficulty.Easy, new SpawnSettings {minDisSpawnAmount = 20, maxDisSpawnAmount = 30, lockMovesProbability = 0.2f} },
+            { GameDifficulty.Medium, new SpawnSettings {minDisSpawnAmount = 30, maxDisSpawnAmount = 55, lockMovesProbability = 0.3f} },
+            { GameDifficulty.Hard, new SpawnSettings {minDisSpawnAmount = 75, maxDisSpawnAmount = 125, lockMovesProbability = 0.5f} },
+            { GameDifficulty.VeryHard, new SpawnSettings {minDisSpawnAmount = 75, maxDisSpawnAmount = 150, lockMovesProbability = 0.5f} }
         };
 
         // Easy by default

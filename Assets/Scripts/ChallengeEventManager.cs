@@ -27,9 +27,9 @@ public class ChallengeEventManager : MonoBehaviour
         settings = new Dictionary<GameDifficulty, float>
         {
             {GameDifficulty.Easy, .2f },
-            {GameDifficulty.Medium, .2f },
-            {GameDifficulty.Hard, .35f },
-            {GameDifficulty.VeryHard, .6f }
+            {GameDifficulty.Medium, .8f },
+            {GameDifficulty.Hard, .6f },
+            {GameDifficulty.VeryHard, .7f }
         };
     }
 
