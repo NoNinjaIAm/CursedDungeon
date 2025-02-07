@@ -3320,10 +3320,10 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: 'You have found yourself trapped inside of a seemingly endless dungeon,
-    and all you can do is move forward. You must complete a timing challenege every
+    and all you can do is move forward. You must complete a timing challenge every
     room in order to progress to the next room. To complete the challenge, you will
     be shown a stone mask with a spinning eyeball in the center of it. Press the
-    Space key to stop the eyeball while it is looking a the lock sigil to complete
+    Space key to stop the eyeball while it is looking at the lock sigil to complete
     the challenge. '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c0d79b068f5e2b643a7d9f7350b7cc75, type: 2}
