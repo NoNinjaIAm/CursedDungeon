@@ -5,14 +5,23 @@ using UnityEngine.Rendering.Universal; // Required for Light2D
 
 public class ChallengeEventManager : MonoBehaviour
 {
-    GameDifficulty currentDifficulty = GameDifficulty.Easy;
-    Dictionary<GameDifficulty, float> settings;
+    public struct EventSettings
+    {
+        public float challengeEventProb;
+        public float darkRoomProb;
+        public float trippyRoomProb;
+    }
 
+    GameDifficulty currentDifficulty = GameDifficulty.Easy;
+    Dictionary<GameDifficulty, EventSettings> settings;
+
+    // Dark Room Objects
     [SerializeField] private Light2D globalLight;
     [SerializeField] private GameObject playerSpotLight;
     [SerializeField] private GameObject ambientRoomLight;
-
     private bool isDarkRoomEventActive = false;
+
+
     void Start()
     {
         GameManager.OnDifficultyChanged += OnDifficultyChanged;
@@ -24,12 +33,12 @@ public class ChallengeEventManager : MonoBehaviour
 
     private void Awake()
     {
-        settings = new Dictionary<GameDifficulty, float>
+        settings = new Dictionary<GameDifficulty, EventSettings>
         {
-            {GameDifficulty.Easy, .2f },
-            {GameDifficulty.Medium, .8f },
-            {GameDifficulty.Hard, .6f },
-            {GameDifficulty.VeryHard, .7f }
+            {GameDifficulty.Easy, new EventSettings{ challengeEventProb = 0.2f, darkRoomProb = 0.5f, trippyRoomProb = 0.5f} },
+            {GameDifficulty.Medium, new EventSettings{ challengeEventProb = 0.8f, darkRoomProb = 0.5f, trippyRoomProb = 0.5f} },
+            {GameDifficulty.Hard, new EventSettings{ challengeEventProb = 0.6f, darkRoomProb = 0.5f, trippyRoomProb = 0.5f} },
+            {GameDifficulty.VeryHard, new EventSettings{ challengeEventProb = 0.7f, darkRoomProb = 0.5f, trippyRoomProb = 0.5f} }
         };
     }
 
@@ -49,19 +58,42 @@ public class ChallengeEventManager : MonoBehaviour
 
     private void TryForEvent()
     {
-        float probability = settings[currentDifficulty];
+        // Make sure any active event is diabled by start of the room
+        DisableAllEvents();
+
+        float probability = settings[currentDifficulty].challengeEventProb;
 
         if(probability > Random.Range(0.0f, 1.0f))
         {
             Debug.Log("Dark Room Event Activated!");
+            RunRandomEvent();
+        }
+    }
+
+    private void DisableAllEvents()
+    {
+        DisableDarkRoomEvent();
+    }
+
+    private void RunRandomEvent()
+    {
+        float darkProb, trippyProb;
+        darkProb = settings[currentDifficulty].darkRoomProb;
+        trippyProb = settings[currentDifficulty].trippyRoomProb;
+
+        float total = darkProb + trippyProb;
+        float rand = Random.Range(0f, total); // Generate a random number between 0 and total
+
+        if (rand < darkProb)
+        {
+            Debug.Log("Running Dark Event");
             EnableDarkRoomEvent();
         }
         else
         {
-            Debug.Log("Dark Room Event Deactivated!");
-            DisableDarkRoomEvent();
+            Debug.Log("Running Trippy Event");
         }
-    }
+    } 
 
     private void EnableDarkRoomEvent()
     {
