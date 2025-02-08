@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private int score;
     public static int Highscore { get; private set; }
+    public static bool enabledTrippyColors;
 
     // Events
     public static event Action OnChallengeStart;
@@ -41,6 +42,9 @@ public class GameManager : MonoBehaviour
             PlayerPrefs.SetInt("Highscore", 0);
         }
         PlayerPrefs.Save();
+
+        // TO:DO SAVE AND LOAD PLAYER OPTION TO HAVE TRIPPY COLORS
+        enabledTrippyColors = false;
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -189,6 +193,15 @@ public class GameManager : MonoBehaviour
     public int GetScore()
     {
         return score;
+    }
+
+    public bool GetTrippyColorsOptionEnabled()
+    {
+        return enabledTrippyColors;
+    }
+    public void SetTrippyColorsOptionEnabled(bool value)
+    {
+        enabledTrippyColors = value;
     }
 
     private void UnsubscribeToGameSceneEvents()

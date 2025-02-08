@@ -21,6 +21,8 @@ public class ChallengeEventManager : MonoBehaviour
     [SerializeField] private GameObject ambientRoomLight;
     private bool isDarkRoomEventActive = false;
 
+    // Tripping Balls Objects
+    [SerializeField] private GameObject trippingBallsVolume;
 
     void Start()
     {
@@ -35,7 +37,7 @@ public class ChallengeEventManager : MonoBehaviour
     {
         settings = new Dictionary<GameDifficulty, EventSettings>
         {
-            {GameDifficulty.Easy, new EventSettings{ challengeEventProb = 0.2f, darkRoomProb = 0.5f, trippyRoomProb = 0.5f} },
+            {GameDifficulty.Easy, new EventSettings{ challengeEventProb = 1f, darkRoomProb = 0.5f, trippyRoomProb = 0.5f} },
             {GameDifficulty.Medium, new EventSettings{ challengeEventProb = 0.8f, darkRoomProb = 0.5f, trippyRoomProb = 0.5f} },
             {GameDifficulty.Hard, new EventSettings{ challengeEventProb = 0.6f, darkRoomProb = 0.5f, trippyRoomProb = 0.5f} },
             {GameDifficulty.VeryHard, new EventSettings{ challengeEventProb = 0.7f, darkRoomProb = 0.5f, trippyRoomProb = 0.5f} }
@@ -73,6 +75,7 @@ public class ChallengeEventManager : MonoBehaviour
     private void DisableAllEvents()
     {
         DisableDarkRoomEvent();
+        DisableTrippingBallsEvent();
     }
 
     private void RunRandomEvent()
@@ -92,6 +95,7 @@ public class ChallengeEventManager : MonoBehaviour
         else
         {
             Debug.Log("Running Trippy Event");
+            EnableTrippingBallsEvent();
         }
     } 
 
@@ -108,6 +112,16 @@ public class ChallengeEventManager : MonoBehaviour
         isDarkRoomEventActive = false;
         globalLight.intensity = 1f;
         ambientRoomLight.SetActive(false);
+    }
+
+    private void EnableTrippingBallsEvent()
+    {
+        trippingBallsVolume.SetActive(true);
+    }
+
+    private void DisableTrippingBallsEvent()
+    {
+        trippingBallsVolume.SetActive(false);
     }
 
     private void OnChallengeStart()
