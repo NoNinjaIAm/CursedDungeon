@@ -1,5 +1,6 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class SoundManager : MonoBehaviour
 {
@@ -105,6 +106,9 @@ public class SoundManager : MonoBehaviour
     private void LoadSoundSettings()
     {
         musicVolume = PlayerPrefs.GetFloat("MusicVolume", defaultMusicVolume);
+        musicSource.volume = musicVolume;
+
+        //Debug.Log("Sound Settings loaded with a value of: " + musicVolume);
     }
 
     public float GetMusicVolume()

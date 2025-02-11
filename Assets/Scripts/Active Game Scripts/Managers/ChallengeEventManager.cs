@@ -37,9 +37,9 @@ public class ChallengeEventManager : MonoBehaviour
     {
         settings = new Dictionary<GameDifficulty, EventSettings>
         {
-            {GameDifficulty.Easy, new EventSettings{ challengeEventProb = 1f, darkRoomProb = 0.5f, trippyRoomProb = 0.5f} },
-            {GameDifficulty.Medium, new EventSettings{ challengeEventProb = 0.8f, darkRoomProb = 0.5f, trippyRoomProb = 0.5f} },
-            {GameDifficulty.Hard, new EventSettings{ challengeEventProb = 0.6f, darkRoomProb = 0.5f, trippyRoomProb = 0.5f} },
+            {GameDifficulty.Easy, new EventSettings{ challengeEventProb = 0.2f, darkRoomProb = 0.8f, trippyRoomProb = 0.2f} },
+            {GameDifficulty.Medium, new EventSettings{ challengeEventProb = 0.8f, darkRoomProb = 0.75f, trippyRoomProb = 0.25f} },
+            {GameDifficulty.Hard, new EventSettings{ challengeEventProb = 0.6f, darkRoomProb = 0.4f, trippyRoomProb = 0.6f} },
             {GameDifficulty.VeryHard, new EventSettings{ challengeEventProb = 0.7f, darkRoomProb = 0.5f, trippyRoomProb = 0.5f} }
         };
     }

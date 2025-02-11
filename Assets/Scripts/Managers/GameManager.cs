@@ -1,4 +1,5 @@
 using System;
+using NUnit.Framework.Constraints;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using static GameEnums;
@@ -36,15 +37,10 @@ public class GameManager : MonoBehaviour
         SceneManager.sceneLoaded += OnSceneLoaded;
 
         // Load Save data
-        if (!PlayerPrefs.HasKey("Highscore"))
-        {
-            Debug.Log("Highscore key does not exist.");
-            PlayerPrefs.SetInt("Highscore", 0);
-        }
-        PlayerPrefs.Save();
-
-        // TO:DO SAVE AND LOAD PLAYER OPTION TO HAVE TRIPPY COLORS
-        enabledTrippyColors = false;
+        Highscore = PlayerPrefs.GetInt("Highscore", 0); // Default to 0 if not found
+        enabledTrippyColors = Convert.ToBoolean(PlayerPrefs.GetInt("EnbabledFlashyColors", 1));
+        
+        Debug.Log("Loaded Highscore with a value of: " +  Highscore + "And Trippy colors with a value of: " + enabledTrippyColors);
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -186,7 +182,10 @@ public class GameManager : MonoBehaviour
             PlayerPrefs.SetInt("Highscore", Highscore);
             PlayerPrefs.Save();
 
-            Debug.Log("New Highscore: " + Highscore);
+            //Testing if saved
+            Debug.Log("Testing to see if highscore saved. Highscore laoded value after saving: " + PlayerPrefs.GetInt("Highscore", 0));
+
+
         }
     }
 

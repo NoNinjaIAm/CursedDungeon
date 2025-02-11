@@ -18,11 +18,6 @@ public class MusicVolumeSlider : MonoBehaviour
         }
     }
 
-    private void OnEnable()
-    {
-        
-    }
-
     // Set the volume based on the slider value
     public void SetVolume(float volume)
     {
