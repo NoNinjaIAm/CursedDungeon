@@ -8,11 +8,13 @@ public class MenuEyeballMovement : MonoBehaviour
     private Vector2 startPosition;
     private Vector2 currentTarget;
     private bool isWaiting = false;
+    private bool lastFullscreenState;
 
     void Start()
     {
         startPosition = transform.position;  // Save the starting position
         MoveToRandomPosition();  // Move to an initial random target
+        lastFullscreenState = Screen.fullScreen;
     }
 
     void Update()
@@ -21,6 +23,7 @@ public class MenuEyeballMovement : MonoBehaviour
         {
             MoveTowardsTarget();
         }
+        CheckChangeInScreenState();
     }
 
     private void MoveTowardsTarget()
@@ -29,10 +32,26 @@ public class MenuEyeballMovement : MonoBehaviour
         transform.position = Vector2.MoveTowards(transform.position, currentTarget, speed * Time.deltaTime);
 
         // Once we reach the target, wait for a few seconds and then pick a new target
-        if ((Vector2)transform.position == currentTarget)
+        if (AreFloatsClose(transform.position.x, currentTarget.x) && AreFloatsClose(transform.position.y, currentTarget.y))
         {
             isWaiting = true;
             Invoke("MoveToRandomPosition", waitTime); // Wait for the specified time before moving
+        }
+    }
+
+    bool AreFloatsClose(float a, float b, float tolerance = 0.5f)
+    {
+        return Mathf.Abs(a - b) <= tolerance;
+    }
+
+    private void CheckChangeInScreenState()
+    {
+        if (Screen.fullScreen != lastFullscreenState)
+        {
+            Debug.Log("Fullscreen state changed! Killing eyeball");
+
+            // Kill movement if resolution has changed
+            Destroy(this);
         }
     }
 
